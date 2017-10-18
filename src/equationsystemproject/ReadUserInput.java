@@ -4,13 +4,22 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class ReadUserInput {
-	
+
 	double l;
 	double k;
 	double n;
-	int h0;
-	int hl;
-	int q0;
+	double h0;
+	double hl;
+	double q0;
+	int switch0;
+	boolean invalid0 = true;
+	int switchl;
+	boolean invalid1 = true;
+	double[][] grid1 = new double[5][5];
+	double[] vector_left = new double[5];
+	double[] grid3 = new double[5];
+	boolean exceptiontop = false;
+	boolean exceptionbot = false;
 
 	public void readInput() {
 
@@ -24,17 +33,14 @@ public class ReadUserInput {
 		System.out.println("Enter the system conductivity: ");
 		k = input.nextDouble();
 
-		// Number of points
-		System.out.println("Enter the number of points: ");
+		// Number of nodes
+		System.out.println("Enter the number of nodes: ");
 		n = input.nextDouble();
 
 		// H0 - Q0
 		System.out.println("H0 or Q0?: 1/2");
 		h0 = 0;
 		q0 = 0;
-
-		int switch0;
-		boolean invalid0 = true;
 
 		while (invalid0 == true) {
 			invalid0 = false;
@@ -65,9 +71,6 @@ public class ReadUserInput {
 		hl = 0;
 		double ql = 0;
 
-		int switchl;
-		boolean invalid1 = true;
-
 		while (invalid1 == true) {
 			invalid1 = false;
 			switchl = input.nextInt();
@@ -89,7 +92,6 @@ public class ReadUserInput {
 			default: // Otherwise
 				System.out.println("Invalid input");
 				invalid1 = true;
-
 			}
 		}
 
@@ -101,11 +103,7 @@ public class ReadUserInput {
 		System.out.println("Enter Wl: ");
 		int wl = input.nextInt();
 
-		System.out.println("Data Input Complete!");
-
-		double[][] grid1 = new double[5][5];
-		int[] vector_left = new int[5];
-		int[] grid3 = new int[5];
+		System.out.println("\n" + "Data Input Complete!" + "\n");
 
 		// Filling the matrix 1 for H0 - HL
 		for (int row1 = 0; row1 < grid1.length; row1++) {
@@ -128,8 +126,27 @@ public class ReadUserInput {
 
 				} else {
 
-					if (col1 == row1 + 1 | col1 == row1 - 1) { // Filling the surrounding cells
-						grid1[row1][col1] = -3;
+					// if (col1 == row1 + 1 || col1 == row1 - 1) { // Filling the surrounding cells
+					if (row1 == col1 + 1 || row1 == col1 - 1) { // Filling the surrounding cells
+						exceptiontop = false;
+						exceptionbot = false;
+
+						if (row1 == 0 && col1 == 1) {
+							grid1[row1][col1] = 0;
+							exceptiontop = true;
+						} else {
+						}
+
+						if (row1 == 4 && col1 == 3) {
+							grid1[row1][col1] = 0;
+							exceptionbot = true;
+						} else {
+						}
+
+						if (exceptiontop == false && exceptionbot == false) {
+							grid1[row1][col1] = -3;
+						}
+
 					} else { // Filling the 0s. Not necessary
 						grid1[row1][col1] = 0;
 					}
@@ -160,6 +177,7 @@ public class ReadUserInput {
 		}
 
 		// Printing the matrix
+		System.out.println("Matrix: ");
 		DecimalFormat df = new DecimalFormat("0.00");
 		for (int row1 = 0; row1 < grid1.length; row1++) {
 			for (int col1 = 0; col1 < grid1[row1].length; col1++) {
@@ -170,13 +188,14 @@ public class ReadUserInput {
 			System.out.println("");
 		}
 
-		System.out.println("\n");
+		// System.out.println("\n");
 
 		// Printing the vector3
+		System.out.println("\n" + "Vector 3: ");
 		for (int i = 0; i < 5; i++) {
 			System.out.println(grid3[i]);
 		}
-
+		input.close();
 	}
 
 }

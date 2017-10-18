@@ -2,7 +2,10 @@ package equationsystemproject;
 
 public class SolveEquationSystem {
 
-	public void sES(double[][] matrix, int[] vector_left, int[] vector_right) {
+	double[] results;
+	int equationsize;
+
+	public void sES(double[][] matrix, double[] vector_left, double[] vector_right) {
 
 		double fMaxElem;
 		double fAcc;
@@ -42,6 +45,7 @@ public class SolveEquationSystem {
 				vector_right[j] = (int) (vector_right[j] + fAcc * vector_right[k]); // free member recalculation
 			}
 		}
+		
 		for (int k = (nodenumber - 1); k >= 0; k--) {
 			vector_left[k] = vector_right[k];
 			for (int i = (k + 1); i < nodenumber; i++) {
@@ -49,6 +53,12 @@ public class SolveEquationSystem {
 			}
 			vector_left[k] = (int) (vector_left[k] / matrix[k][k]);
 		}
+		equationsize=vector_left.length;
+		results = new double[vector_left.length];
+		for (int i = 0; i < vector_left.length; i++) {
+			results[i]=vector_left[i];
+		}
+
 	}
 
 }
