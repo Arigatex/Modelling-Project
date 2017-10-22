@@ -35,7 +35,7 @@ public class SolveEquationSystem {
 			if (Math.abs(matrix[k][k]) < 1.e-10) {
 				System.out.println("matrix singular " + k + " " + matrix[k][k]);// needs improvement !!!
 			}
-			// triangulation of matrix with coefficients
+			// Triangulation of matrix with coefficients
 			for (int j = (k + 1); j < nodenumber; j++) // current row of matrix
 			{
 				fAcc = -matrix[j][k] / matrix[k][k];

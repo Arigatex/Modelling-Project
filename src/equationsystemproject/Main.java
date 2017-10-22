@@ -4,19 +4,26 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		// Creating the objects
+		// Reading the input data
 		ReadUserInput read = new ReadUserInput();
-		SolveEquationSystem eqsystem = new SolveEquationSystem();
-		AnaliticMethod method1 = new AnaliticMethod();
-
-		// Reading the input data and building the matrix
 		read.readInput();
-		System.out.println("\n" + "h(L/2)= " + method1.calculate(read.l, read.hl, read.h0) + "\n");
+
+		// Creating the Matrix System
+		Matrix matrix = new Matrix((int) read.n, read.l, read.k, read.h0, read.hl, read.q0, read.ql, read.w0, read.wl);
+
+		// Printing the Matrix
+		matrix.MatrixPrinter();
+
+		// Solving the analytic method
+		AnaliticMethod method1 = new AnaliticMethod();
+		System.out.println("Through analythic method:\t" + "h(L/2)= " + method1.calculate(read.l, read.hl, read.h0) + "\n");
 
 		// Solving the equation system
-		eqsystem.sES(read.grid1, read.vector_left, read.grid3);
+		SolveEquationSystem eqsystem = new SolveEquationSystem();
+		eqsystem.sES(matrix.getMatrix(), matrix.getVectorLeft(), matrix.getVectorRight());
 
-		// Printing the solutions
+		//Printing the equation system
+		System.out.println("Through Finite Difference Method:");
 		for (int i = 0; i < eqsystem.equationsize; i++) {
 			System.out.print("h" + i + ": " + eqsystem.results[i] + "\t");
 		}
